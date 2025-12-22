@@ -60,7 +60,7 @@
 
 <div class="surah-list">
     @forelse ($surahs ?? [] as $surah)
-        <a href="#" class="surah-item row align-items-center mx-0 shadow-sm mb-3">
+        <a href="{{route('surah.show', $surah['nomor'])}}" class="surah-item row align-items-center mx-0 shadow-sm mb-3">
             <div class="col-auto">
                 <div class="surah-number">{{ $surah['nomor'] }}</div>
             </div>
@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="col-auto d-none d-md-block">
-                <div class="btn btn-sm border px-3">Lihat detail <i class="bi bi-arrow-right"></i></div>
+               <div class="btn btn-sm border px-3">Lihat detail <i class="bi bi-arrow-right"></i></div>
             </div>
         </a>
     @empty

@@ -11,4 +11,6 @@ Route::get('/', function () {
 Route::view('/about', 'pages.about')->name('about');
 
 Route::get('/surah',[SurahController::class, 'index'])->name('surah.index');
+Route::get('surah/{nomor}', [SurahController::class, 'show'])->name('surah.show');
+Route::get('/bookmarks', [SurahController::class, 'bookmarks'])->name('surah.bookmarks');
 

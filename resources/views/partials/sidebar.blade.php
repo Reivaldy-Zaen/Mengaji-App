@@ -10,7 +10,7 @@
             <i class="bi bi-grid-fill"></i> Daftar Surah
         </a>
 
-        <a href="#" class="nav-link">
+        <a href="{{route('surah.bookmarks')}}" class="nav-link">
             <i class="bi bi-bookmark"></i> Bookmark
         </a>
 
