@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\User;
 
 class SurahController extends Controller
 {
-    
+
 public function index(Request $request)
     {
         $search = $request->query('search', '');
@@ -15,7 +16,7 @@ public function index(Request $request)
         $juz = $request->query('juz', '');
 
         $response = Http::get('https://api.npoint.io/99c279bb173a6e28359c/data');
-        
+
         if ($response->failed()) {
             return view('surah.index', ['surahs' => collect([]), 'search' => '', 'type' => '', 'juz' => '']);
         }
@@ -23,7 +24,7 @@ public function index(Request $request)
         $surahs = collect($response->json());
         if ($search !== '') {
             $surahs = $surahs->filter(function ($item) use ($search) {
-                return str_contains(strtolower($item['nama']), strtolower($search)) || 
+                return str_contains(strtolower($item['nama']), strtolower($search)) ||
                        $item['nomor'] == $search;
             });
         }
@@ -38,7 +39,6 @@ public function index(Request $request)
 
         return view('surah.index', compact('surahs', 'search', 'type', 'juz'));
     }
-
     public function create()
     {
         //

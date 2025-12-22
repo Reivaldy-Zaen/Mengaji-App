@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id" data-bs-theme="light">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -128,13 +129,21 @@
         }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 2rem; }
-            .bismillah-text { font-size: 1.5rem; }
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .bismillah-text {
+                font-size: 1.5rem;
+            }
         }
 
-        * { transition: background-color 0.2s ease, border-color 0.2s ease; }
+        * {
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
     </style>
 </head>
+
 <body>
 
     <nav class="navbar">
@@ -159,12 +168,14 @@
             </h1>
 
             <p class="hero-description">
-                Pengalaman membaca yang sederhana dengan teks Arab, terjemahan Indonesia, dan audio berkualitas tanpa gangguan.
+                Pengalaman membaca yang sederhana dengan teks Arab, terjemahan Indonesia, dan audio berkualitas tanpa
+                gangguan.
             </p>
-
-            <a href="/surah" class="btn-start">
-                <i class="bi bi-book-half"></i> Mulai Membaca
-            </a>
+            @auth
+                <a href="{{ route('auth') }}" class="btn-start">
+                    <i class="bi bi-book-half"></i> Login / Register Untuk Membaca
+                </a>
+            @endauth
 
             <div class="shortcut-hint">
                 <i class="bi bi-keyboard"></i> Spasi: play/pause • ← →: navigasi surah
@@ -195,4 +206,5 @@
         });
     </script>
 </body>
+
 </html>
