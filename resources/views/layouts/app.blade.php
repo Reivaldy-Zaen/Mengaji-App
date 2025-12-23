@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>@yield('title', "Al-Qur'an Digital")</title>
 
-    {{-- Fonts & CSS --}}
+    {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:wght@700&display=swap"
+          rel="stylesheet">
 
+    {{-- CSS --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-    {{-- STYLE GLOBAL --}}
+    {{-- GLOBAL STYLE --}}
     <style>
+        /* =====================
+           COLOR SYSTEM
+        ====================== */
         :root {
             --bg-body: #f8fafb;
             --bg-card: #ffffff;
             --sidebar-bg: #ffffff;
+
             --text-main: #1b1b18;
             --text-muted: #706f6c;
+
             --border-color: #eeeeec;
+
             --teal-primary: #0d9488;
             --teal-light: #e6f6f4;
         }
@@ -31,55 +39,71 @@
             --bg-body: #0a0a0a;
             --bg-card: #161615;
             --sidebar-bg: #161615;
+
             --text-main: #ededec;
             --text-muted: #a1a09a;
+
             --border-color: #3e3e3a;
             --teal-light: #1a2e2c;
         }
 
+        /* =====================
+           BASE
+        ====================== */
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color .3s ease, color .3s ease;
         }
 
-        /* SIDEBAR STYLES */
+        /* =====================
+           HEADER
+        ====================== */
+        .header-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: color-mix(in srgb, var(--bg-body) 95%, transparent);
+            backdrop-filter: blur(8px);
+        }
+
+        /* =====================
+           SIDEBAR
+        ====================== */
         .sidebar {
-            height: 100vh;
+            position: fixed;
+            inset: 0 auto 0 0;
+            width: 260px;
+            padding: 2rem 1rem;
             background-color: var(--sidebar-bg);
             border-right: 1px solid var(--border-color);
-            position: fixed;
-            left: 0;
-            top: 0;
-            padding: 2rem 1rem;
-            width: 260px;
+            transition: transform .3s ease;
             z-index: 1000;
-            transition: all 0.3s ease;
         }
 
         .sidebar-brand {
-            color: var(--teal-primary);
             font-weight: 700;
+            color: var(--teal-primary);
             margin-bottom: 2rem;
-            padding: 0 0.5rem;
+            padding: 0 .5rem;
         }
 
         .nav-link {
-            color: var(--text-muted);
-            font-weight: 500;
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
             gap: 12px;
+            padding: .8rem 1rem;
+            margin-bottom: .5rem;
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-weight: 500;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: .2s ease;
         }
 
         .nav-link:hover {
-            background-color: rgba(13, 148, 136, 0.1);
+            background-color: rgba(13,148,136,.1);
             color: var(--teal-primary);
         }
 
@@ -89,28 +113,27 @@
             font-weight: 600;
         }
 
-        /* MAIN CONTENT */
+        /* =====================
+           MAIN CONTENT
+        ====================== */
         .main-content {
             margin-left: 260px;
             padding: 2rem 3rem;
             min-height: 100vh;
-            transition: margin-left 0.3s ease;
         }
 
-        /* UTILITIES */
-        .text-teal {
-            color: var(--teal-primary) !important;
-        }
+        /* =====================
+           UTILITIES
+        ====================== */
+        .bg-teal { background: var(--teal-primary) !important; }
+        .text-teal { color: var(--teal-primary) !important; }
 
-        .bg-teal {
-            background-color: var(--teal-primary) !important;
-        }
-
-        /* RESPONSIVE */
+        /* =====================
+           RESPONSIVE
+        ====================== */
         @media (max-width: 992px) {
             .sidebar {
                 transform: translateX(-100%);
-                display: block;
             }
 
             .sidebar.show {
@@ -136,10 +159,11 @@
 
     @stack('styles')
 </head>
+
 <body>
-    {{-- MOBILE MENU BUTTON --}}
+    {{-- MOBILE MENU --}}
     <button class="mobile-menu-btn btn bg-teal text-white position-fixed bottom-0 end-0 m-3 rounded-circle shadow-lg"
-            style="width: 56px; height: 56px; z-index: 999; display: none;"
+            style="width:56px;height:56px;display:none;z-index:999"
             onclick="toggleSidebar()">
         <i class="bi bi-list"></i>
     </button>
@@ -156,23 +180,46 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Mobile Sidebar Toggle
+        /* =====================
+           SIDEBAR MOBILE
+        ====================== */
         function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('show');
+            document.querySelector('.sidebar')?.classList.toggle('show');
         }
 
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', e => {
             const sidebar = document.querySelector('.sidebar');
-            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            const btn = document.querySelector('.mobile-menu-btn');
+            if (!sidebar || !btn) return;
 
             if (window.innerWidth <= 992 &&
-                !sidebar.contains(event.target) &&
-                !mobileBtn.contains(event.target) &&
-                sidebar.classList.contains('show')) {
+                !sidebar.contains(e.target) &&
+                !btn.contains(e.target)) {
                 sidebar.classList.remove('show');
             }
+        });
+
+        /* =====================
+           THEME (PERSISTENT)
+        ====================== */
+        function toggleTheme() {
+            const html = document.documentElement;
+            const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-bs-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeIcon(next);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('themeIcon');
+            if (!icon) return;
+            icon.className = theme === 'dark' ? 'bi bi-sun' : 'bi bi-moon-stars';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-bs-theme', saved);
+            updateThemeIcon(saved);
         });
     </script>
 

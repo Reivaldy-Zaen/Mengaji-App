@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $surah['namaLatin'] }} - Al-Qur'an Digital</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -37,7 +38,7 @@
 
         .content-area {
             flex: 1;
-            background: #ffffff; 
+            background: #ffffff;
             display: flex;
             flex-direction: column;
             border-right: 1px solid var(--border-color);
@@ -299,9 +300,9 @@
 <body>
 
     <div class="main-layout">
-        
+
         <main class="content-area">
-            
+
             <div class="header-sticky">
                 <a href="{{ route('surah.index') }}" class="btn-back">
                     <i class="bi bi-arrow-left"></i> Kembali ke Daftar
@@ -309,7 +310,7 @@
             </div>
 
             <div class="scrollable-content">
-                
+
                 <div class="surah-title-box">
                     <h1 class="arabic-title-header">{{ $surah['nama'] }}</h1>
                     <div class="latin-title-header">{{ $surah['namaLatin'] }}</div>
@@ -350,18 +351,18 @@
                                 </div>
 
                                 <div class="ayat-actions">
-                                    <button class="action-btn btn-bookmark-toggle" 
+                                    <button class="action-btn btn-bookmark-toggle"
                                         data-surah-num="{{ $surah['nomor'] }}"
                                         data-surah-name="{{ $surah['namaLatin'] }}"
                                         data-verse-num="{{ $ayat['nomorAyat'] }}"
                                         data-translation="{{ $ayat['teksIndonesia'] }}"
                                         data-url="{{ route('surah.show', $surah['nomor']) }}#ayat-{{ $ayat['nomorAyat'] }}"
                                         onclick="handleBookmarkClick(this)">
-                                        <i class="bi bi-bookmark"></i> 
+                                        <i class="bi bi-bookmark"></i>
                                         <span class="d-none d-md-inline" style="font-size: 12px;">Simpan</span>
                                     </button>
 
-                                    <button class="action-btn" 
+                                    <button class="action-btn"
                                         data-text="{{ $ayat['teksArab'] }} {{ $ayat['teksIndonesia'] }} ({{ $surah['namaLatin'] }}:{{ $ayat['nomorAyat'] }})"
                                         onclick="copyToClipboard(this)">
                                         <i class="bi bi-copy"></i>
@@ -475,7 +476,7 @@
         function toggleBookmark(btn, surahNum, surahName, verseNum, translation, url) {
             const icon = btn.querySelector('i');
             const uniqueId = `${surahNum}_${verseNum}`;
-            
+
             let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks')) || [];
             const index = bookmarks.findIndex(b => `${b.surahNumber}_${b.verseNumber}` === uniqueId);
 
@@ -493,7 +494,7 @@
                     timestamp: new Date().getTime()
                 };
                 bookmarks.push(newItem);
-                
+
                 icon.classList.remove('bi-bookmark');
                 icon.classList.add('bi-bookmark-fill');
             }
@@ -504,7 +505,7 @@
 
         function checkBookmarkStatus() {
             let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks')) || [];
-            
+
             document.querySelectorAll('.btn-bookmark-toggle').forEach(btn => {
                 const sNum = btn.getAttribute('data-surah-num');
                 const vNum = btn.getAttribute('data-verse-num');
@@ -535,7 +536,7 @@
                 return;
             }
 
-            const recent = bookmarks.slice(-5).reverse(); 
+            const recent = bookmarks.slice(-5).reverse();
 
             recent.forEach(item => {
                 let shortText = item.translation.length > 50 ? item.translation.substring(0, 50) + '...' : item.translation;
@@ -600,3 +601,39 @@
     </script>
 </body>
 </html>
+
+<script>
+let lastSavedAyat = null;
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const ayatNum = entry.target.id.replace('ayat-', '');
+
+            if (ayatNum !== lastSavedAyat) {
+                lastSavedAyat = ayatNum;
+                saveHistory(ayatNum);
+            }
+        }
+    });
+}, { threshold: 0.6 });
+
+document.querySelectorAll('.ayat-item').forEach(el => observer.observe(el));
+
+function saveHistory(lastAyat) {
+    fetch("{{ route('surah.history') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+            surah_number: {{ $surah['nomor'] }},
+            last_ayat: lastAyat
+        })
+    })
+    .then(res => res.json())
+    .then(data => console.log('Riwayat disimpan:', data))
+    .catch(err => console.error('Error:', err));
+}
+</script>
