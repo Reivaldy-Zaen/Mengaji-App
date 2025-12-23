@@ -44,7 +44,7 @@
                     <div class="col-md-4">
                         <div class="bg-light-teal rounded-3 p-3 d-flex align-items-center">
                             <i class="bi bi-headphones text-teal fs-4 me-3"></i>
-                            <span class="text-dark">Audio Qari (Mishary Rashid)</span>
+                            <span class="text-dark">Audio Qari</span>
                         </div>
                     </div>
                     <div class="col-md-4">

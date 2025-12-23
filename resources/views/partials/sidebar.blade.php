@@ -5,15 +5,17 @@
     </div>
 
     <nav class="nav flex-column px-2">
-        <a href="{{ route('surah.index') }}" class="nav-link {{ request()->routeIs('surah.*') ? 'active' : '' }}">
+        <a href="{{ route('surah.index') }}" class="nav-link {{ request()->routeIs('surah.index') ? 'active' : '' }}">
             <i class="bi bi-grid-fill"></i> Daftar Surah
         </a>
 
-        <a href="{{route('surah.bookmarks')}}" class="nav-link">
+        <a href="{{ route('surah.bookmarks') }}"
+            class="nav-link {{ request()->routeIs('surah.bookmarks') ? 'active' : '' }}">
             <i class="bi bi-bookmark"></i> Bookmark
         </a>
 
-        <a href="#" class="nav-link">
+        <a href="{{ route('surah.riwayat') }}"
+            class="nav-link {{ request()->routeIs('surah.riwayat') ? 'active' : '' }}">
             <i class="bi bi-clock-history"></i> Riwayat
         </a>
 
@@ -28,10 +30,9 @@
             </button>
         </form>
 
-        <div class="mt-auto pt-4 px-2">
-            <button class="nav-link w-100 text-start" onclick="toggleTheme()">
-                <i class="bi bi-moon-stars" id="themeIcon"></i> Tema Gelap
-            </button>
-        </div>
+        <button class="nav-link w-100 text-start" onclick="toggleTheme()">
+            <i class="bi bi-moon-stars" id="themeIcon"></i> Tema Gelap
+        </button>
+
     </nav>
 </div>

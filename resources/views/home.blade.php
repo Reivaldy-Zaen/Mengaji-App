@@ -171,12 +171,9 @@
                 Pengalaman membaca yang sederhana dengan teks Arab, terjemahan Indonesia, dan audio berkualitas tanpa
                 gangguan.
             </p>
-            {{-- @auth --}}
-                <a href="{{ route('auth') }}" class="btn-start">
-                    <i class="bi bi-book-half"></i> Login / Register Untuk Membaca
-                </a>
-            {{-- @endauth --}}
-
+            <a href="{{ route('auth') }}" class="btn-start">
+                <i class="bi bi-book-half"></i> Login / Register Untuk Membaca
+            </a>
             <div class="shortcut-hint">
                 <i class="bi bi-keyboard"></i> Spasi: play/pause • ← →: navigasi surah
             </div>
