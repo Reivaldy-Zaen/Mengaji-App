@@ -1,306 +1,275 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $surah['namaLatin'] }} - Al-Qur'an Digital</title>
+@extends('layouts.app')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+@php
+    $hideSidebar = true;
+@endphp
 
+
+@push('styles')
     <style>
-        :root {
-            --primary-color: #00897B;
-            --bg-color: #f8f9fa;
-            --text-main: #212529;
-            --text-muted: #6c757d;
-            --border-color: #e9ecef;
-            --sidebar-width: 320px;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            color: var(--text-main);
-        }
-
+        /* =====================
+                    PAGE LAYOUT
+                ===================== */
         .main-layout {
             display: flex;
             min-height: 100vh;
-            width: 100%;
         }
 
         .content-area {
             flex: 1;
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid var(--border-color);
+            background: var(--bg-body);
         }
 
         .header-sticky {
             position: sticky;
             top: 0;
-            background: rgba(255, 255, 255, 0.95);
+            background: color-mix(in srgb, var(--bg-body) 90%, transparent);
             backdrop-filter: blur(10px);
-            z-index: 100;
             border-bottom: 1px solid var(--border-color);
             padding: 1rem 2rem;
+            z-index: 100;
         }
 
         .scrollable-content {
             padding: 2rem 4rem;
-            flex: 1;
         }
 
-        .sidebar-right {
-            width: var(--sidebar-width);
-            background-color: #fcfcfc;
-            height: 100vh;
-            position: sticky;
-            top: 0;
-            overflow-y: auto;
-            flex-shrink: 0;
-            padding: 2rem 1.5rem;
-            border-left: 1px solid var(--border-color);
-        }
-
-        .btn-back {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: color 0.2s;
-        }
-
-        .btn-back:hover {
-            color: var(--primary-color);
-        }
-
+        /* =====================
+                       SURAH HEADER
+                    ===================== */
         .surah-title-box {
             text-align: center;
-            padding: 2rem 0 3rem;
+            margin-bottom: 3rem;
         }
 
         .arabic-title-header {
             font-family: 'Amiri', serif;
             font-size: 3rem;
             color: var(--text-main);
-            margin-bottom: 0.5rem;
         }
 
         .latin-title-header {
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
         }
 
-        .surah-info-badge {
-            background-color: rgba(0, 137, 123, 0.1);
-            color: var(--primary-color);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .audio-wrapper {
-            background: #f1f3f5;
-            border-radius: 50px;
-            padding: 0.5rem 1rem;
-            margin: 0 auto 3rem;
-            max-width: 600px;
-            display: flex;
-            align-items: center;
-        }
-
-        audio {
-            width: 100%;
-            height: 32px;
-            filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%);
-        }
-
+        /* =====================
+                       AYAT
+                    ===================== */
         .ayat-item {
             display: flex;
             gap: 1.5rem;
             padding: 2rem 0;
             border-bottom: 1px solid var(--border-color);
-            transition: background 0.2s;
-        }
-
-        .ayat-item:hover {
-            background-color: #fafafa;
         }
 
         .ayat-number-box {
-            width: 45px;
-            height: 45px;
-            flex-shrink: 0;
-            border: 2px solid #e2e8f0;
+            width: 44px;
+            height: 44px;
             border-radius: 12px;
+            border: 1px solid var(--border-color);
+            color: var(--teal-primary);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: var(--primary-color);
-            background: #fff;
-        }
-
-        .ayat-content {
-            flex: 1;
         }
 
         .ayat-arabic {
             font-family: 'Amiri', serif;
             font-size: 2rem;
-            line-height: 2.3;
             text-align: right;
-            margin-bottom: 1.5rem;
-            color: #000;
+            color: var(--text-main);
         }
 
         .ayat-translation {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #555;
+            color: var(--text-muted);
+            margin-top: .75rem;
         }
 
-        .ayat-actions {
-            display: flex;
-            gap: 20px;
-            margin-top: 1rem;
-            padding-top: 0.5rem;
-        }
-
+        /* =====================
+                       ACTIONS
+                    ===================== */
         .action-btn {
             background: none;
             border: none;
-            padding: 0;
-            color: #adb5bd;
-            cursor: pointer;
-            display: flex;
+            color: var(--text-muted);
+            display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-            font-family: 'Inter', sans-serif;
+            transition: .2s;
         }
 
         .action-btn:hover {
-            color: var(--primary-color);
+            color: var(--teal-primary);
         }
 
-        .action-btn i {
-            font-size: 1.1rem;
-        }
-
-        .sidebar-section {
-            margin-bottom: 2.5rem;
-        }
-
-        .sidebar-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #adb5bd;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        input[type=range] {
-            width: 100%;
-            cursor: pointer;
-            accent-color: var(--primary-color);
-        }
-
-        .range-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .range-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
+        /* =====================
+                       SIDEBAR RIGHT
+                    ===================== */
+        .sidebar-right {
+            width: 320px;
+            border-left: 1px solid var(--border-color);
+            background: var(--sidebar-bg);
+            padding: 2rem 1.5rem;
         }
 
         .bookmark-card {
             display: block;
-            background: #fff;
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             padding: 1rem;
             border-radius: 8px;
-            margin-bottom: 0.75rem;
             text-decoration: none;
-            color: inherit;
-            transition: all 0.2s;
+            transition: .2s;
         }
 
         .bookmark-card:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(0, 137, 123, 0.1);
+            border-color: var(--teal-primary);
         }
 
+        /* =====================
+       HEADER BACK BUTTON
+    ===================== */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .btn-back:hover {
+            color: var(--teal-primary);
+        }
+
+        /* =====================
+       AYAT CONTENT
+    ===================== */
+        .ayat-content {
+            flex: 1;
+        }
+
+        .ayat-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: .75rem;
+        }
+
+        /* =====================
+       NAVIGATION BOTTOM
+    ===================== */
         .nav-bottom {
             display: flex;
             justify-content: space-between;
+            margin-top: 4rem;
             padding-top: 2rem;
-            margin-top: 2rem;
             border-top: 1px solid var(--border-color);
         }
 
         .nav-btn {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            border-radius: 8px;
-            background: #fff;
+            gap: 12px;
+            padding: .75rem 1.25rem;
             border: 1px solid var(--border-color);
-            color: var(--text-main);
+            border-radius: 999px;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s;
+            color: var(--text-main);
+            transition: .2s;
+            max-width: 48%;
         }
 
         .nav-btn:hover {
-            background: var(--bg-color);
-            border-color: #ced4da;
+            background: var(--bg-card);
+            border-color: var(--teal-primary);
+            color: var(--teal-primary);
         }
 
+        /* =====================
+       SIDEBAR RIGHT
+    ===================== */
+        .sidebar-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .sidebar-label {
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: .05em;
+            margin-bottom: .75rem;
+            display: block;
+        }
+
+        /* =====================
+       AUDIO
+    ===================== */
+        .audio-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        /* =====================
+       MOBILE IMPROVEMENT
+    ===================== */
+        @media (max-width: 576px) {
+            .ayat-item {
+                gap: 1rem;
+            }
+
+            .ayat-number-box {
+                width: 36px;
+                height: 36px;
+                font-size: .85rem;
+            }
+
+            .ayat-arabic {
+                font-size: 1.8rem;
+            }
+
+            .nav-bottom {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-btn {
+                max-width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+
+        /* =====================
+                       RESPONSIVE
+                    ===================== */
         @media (max-width: 992px) {
             .main-layout {
                 flex-direction: column;
             }
+
             .sidebar-right {
                 width: 100%;
-                height: auto;
-                position: static;
                 border-left: none;
                 border-top: 1px solid var(--border-color);
             }
+
             .scrollable-content {
                 padding: 1.5rem;
             }
         }
     </style>
-</head>
+@endpush
 
-<body>
-
+@section('content')
     <div class="main-layout">
-
         <main class="content-area">
 
             <div class="header-sticky">
@@ -351,8 +320,7 @@
                                 </div>
 
                                 <div class="ayat-actions">
-                                    <button class="action-btn btn-bookmark-toggle"
-                                        data-surah-num="{{ $surah['nomor'] }}"
+                                    <button class="action-btn btn-bookmark-toggle" data-surah-num="{{ $surah['nomor'] }}"
                                         data-surah-name="{{ $surah['namaLatin'] }}"
                                         data-verse-num="{{ $ayat['nomorAyat'] }}"
                                         data-translation="{{ $ayat['teksIndonesia'] }}"
@@ -369,7 +337,8 @@
                                         <span class="d-none d-md-inline" style="font-size: 12px;">Salin</span>
                                     </button>
 
-                                    <button class="action-btn" onclick="shareAyat('{{ $surah['namaLatin'] }} Ayat {{ $ayat['nomorAyat'] }}', '{{ route('surah.show', $surah['nomor']) }}')">
+                                    <button class="action-btn"
+                                        onclick="shareAyat('{{ $surah['namaLatin'] }} Ayat {{ $ayat['nomorAyat'] }}', '{{ route('surah.show', $surah['nomor']) }}')">
                                         <i class="bi bi-share"></i>
                                         <span class="d-none d-md-inline" style="font-size: 12px;">Bagikan</span>
                                     </button>
@@ -413,14 +382,16 @@
                         <span>Ukuran Arab</span>
                         <span class="text-muted">Aa</span>
                     </div>
-                    <input type="range" class="form-range" id="arabicSize" min="1" max="5" step="1" value="3">
+                    <input type="range" class="form-range" id="arabicSize" min="1" max="5" step="1"
+                        value="3">
                 </div>
                 <div class="range-group">
                     <div class="range-header">
                         <span>Ukuran Terjemahan</span>
                         <span class="text-muted">Aa</span>
                     </div>
-                    <input type="range" class="form-range" id="translationSize" min="1" max="5" step="1" value="3">
+                    <input type="range" class="form-range" id="translationSize" min="1" max="5"
+                        step="1" value="3">
                 </div>
             </div>
 
@@ -431,12 +402,10 @@
                 </div>
             </div>
         </aside>
-
     </div>
+@endsection
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const arabicSlider = document.getElementById('arabicSize');
@@ -446,13 +415,13 @@
             const arabicSizes = ['1.5rem', '1.8rem', '2.2rem', '2.8rem', '3.5rem'];
             const translationSizes = ['0.85rem', '0.95rem', '1rem', '1.2rem', '1.4rem'];
 
-            if(arabicSlider) {
+            if (arabicSlider) {
                 arabicSlider.addEventListener('input', function() {
                     const size = arabicSizes[this.value - 1];
                     arabicTexts.forEach(el => el.style.fontSize = size);
                 });
             }
-            if(translationSlider) {
+            if (translationSlider) {
                 translationSlider.addEventListener('input', function() {
                     const size = translationSizes[this.value - 1];
                     translationTexts.forEach(el => el.style.fontSize = size);
@@ -526,7 +495,7 @@
 
         function renderSidebarBookmarks() {
             const container = document.getElementById('sidebarBookmarkList');
-            if(!container) return;
+            if (!container) return;
 
             let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks')) || [];
             container.innerHTML = '';
@@ -539,7 +508,8 @@
             const recent = bookmarks.slice(-5).reverse();
 
             recent.forEach(item => {
-                let shortText = item.translation.length > 50 ? item.translation.substring(0, 50) + '...' : item.translation;
+                let shortText = item.translation.length > 50 ? item.translation.substring(0, 50) + '...' : item
+                    .translation;
 
                 const html = `
                 <a href="${item.url}" class="bookmark-card">
@@ -551,7 +521,7 @@
                 container.innerHTML += html;
             });
 
-            if(bookmarks.length > 0) {
+            if (bookmarks.length > 0) {
                 container.innerHTML += `
                     <div class="mt-3">
                         <a href="{{ route('surah.bookmarks') }}" class="btn btn-sm btn-outline-secondary w-100 rounded-pill">
@@ -598,42 +568,41 @@
                 });
             }
         }
-    </script>
-</body>
-</html>
 
-<script>
-let lastSavedAyat = null;
+        let lastSavedAyat = null;
 
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const ayatNum = entry.target.id.replace('ayat-', '');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const ayatNum = entry.target.id.replace('ayat-', '');
 
-            if (ayatNum !== lastSavedAyat) {
-                lastSavedAyat = ayatNum;
-                saveHistory(ayatNum);
-            }
+                    if (ayatNum !== lastSavedAyat) {
+                        lastSavedAyat = ayatNum;
+                        saveHistory(ayatNum);
+                    }
+                }
+            });
+        }, {
+            threshold: 0.6
+        });
+
+        document.querySelectorAll('.ayat-item').forEach(el => observer.observe(el));
+
+        function saveHistory(lastAyat) {
+            fetch("{{ route('surah.history') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        surah_number: {{ $surah['nomor'] }},
+                        last_ayat: lastAyat
+                    })
+                })
+                .then(res => res.json())
+                .then(data => console.log('Riwayat disimpan:', data))
+                .catch(err => console.error('Error:', err));
         }
-    });
-}, { threshold: 0.6 });
-
-document.querySelectorAll('.ayat-item').forEach(el => observer.observe(el));
-
-function saveHistory(lastAyat) {
-    fetch("{{ route('surah.history') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-            surah_number: {{ $surah['nomor'] }},
-            last_ayat: lastAyat
-        })
-    })
-    .then(res => res.json())
-    .then(data => console.log('Riwayat disimpan:', data))
-    .catch(err => console.error('Error:', err));
-}
-</script>
+    </script>
+@endpush

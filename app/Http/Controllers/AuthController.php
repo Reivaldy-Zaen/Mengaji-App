@@ -38,8 +38,13 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
+        ], [
+            'email.email' => 'Format email tidak valid',
+            'email.unique' => 'Email sudah terdaftar',
+            'password.min' => 'Password minimal 8 karakter',
+            'password.confirmed' => 'Konfirmasi password tidak cocok',
         ]);
 
         $user = User::create([
@@ -50,7 +55,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('surah.index');
+        return redirect()->route('surah.index')->with('success', 'Registrasi berhasil!');
     }
 
     public function logout(Request $request)
