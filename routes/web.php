@@ -8,8 +8,8 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/auth', [AuthController::class, 'showAuthForm'])->name('auth');
 Route::middleware('guest')->group(function () {
-    Route::get('/auth', [AuthController::class, 'showAuthForm'])->name('auth');
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
