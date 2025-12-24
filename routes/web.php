@@ -15,7 +15,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    
+
     Route::get('/surah', [SurahController::class, 'index'])->name('surah.index');
     Route::get('/surah/{nomor}', [SurahController::class, 'show'])->name('surah.show');
 
@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/surah/history', [SurahController::class, 'saveHistory'])->name('surah.history');
 
-    Route::view('/about', 'pages.about')->name('about');
-    
+    Route::view('/about', 'surah.about')->name('about');
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

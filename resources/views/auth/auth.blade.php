@@ -1,218 +1,526 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-bs-theme="light">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $isRegister ? 'Daftar' : 'Masuk' }} - Al-Qur'an Digital</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        :root {
+            --teal-primary: #14b8a6;
+            --teal-dark: #0d9488;
+            --teal-light: #99f6e4;
+            --teal-gradient: linear-gradient(135deg, var(--teal-primary), var(--teal-dark));
+        }
+
+        [data-bs-theme="dark"] {
+            --teal-primary: #2dd4bf;
+            --teal-dark: #0d9488;
+            --teal-light: #5eead4;
+        }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            background-color: #f8fafc;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        [data-bs-theme="dark"] body {
+            background-color: #0f172a;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem 1rem;
+        }
+
+        .auth-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        [data-bs-theme="dark"] .auth-card {
+            background: #1e293b;
+            border-color: #334155;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--teal-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .brand-title {
+            color: var(--teal-primary);
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .brand-subtitle {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        [data-bs-theme="dark"] .brand-subtitle {
+            color: #94a3b8;
+        }
+
+        /* Tabs */
+        .auth-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        [data-bs-theme="dark"] .auth-tabs {
+            background: #334155;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            background: none;
+            border-radius: 10px;
+            color: #64748b;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--teal-primary);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .tab-btn.active {
+            background: var(--teal-gradient);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            color: #475569;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        [data-bs-theme="dark"] .form-label {
+            color: #cbd5e1;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            background: white;
+            color: #1e293b;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--teal-primary);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+        }
+
+        [data-bs-theme="dark"] .form-input {
+            background: #334155;
+            border-color: #475569;
+            color: #f1f5f9;
+        }
+
+        [data-bs-theme="dark"] .form-input:focus {
+            background: #334155;
+            border-color: var(--teal-primary);
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        .input-with-icon input {
+            padding-left: 3rem;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .password-toggle:hover {
+            color: var(--teal-primary);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Checkbox */
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-check-input {
+            width: 1rem;
+            height: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--teal-primary);
+            border-color: var(--teal-primary);
+        }
+
+        .form-check-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        [data-bs-theme="dark"] .form-check-label {
+            color: #94a3b8;
+        }
+
+        /* Links */
+        .link {
+            color: var(--teal-primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        /* Button */
+        .auth-button {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--teal-gradient);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+        }
+
+        /* Switch Link */
+        .switch-link {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        [data-bs-theme="dark"] .switch-link {
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .auth-container {
+                padding: 1rem;
+            }
+
+            .auth-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Animation */
+        .form-group {
+            animation: fadeIn 0.3s ease forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
-<body class="bg-gray-50">
-    <div class="min-h-screen flex">
-        <!-- Sisi Kiri - Background dengan Ayat Al-Qur'an -->
-        <div
-            class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-teal-400 to-teal-500 p-12 flex-col justify-center items-start text-white">
-            <div class="max-w-md">
-                <!-- Ayat Al-Qur'an dalam bahasa Arab -->
-                <h1 class="text-5xl font-bold mb-8 text-right leading-relaxed" dir="rtl">
-                    اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ
-                </h1>
-                <!-- Terjemahan ayat -->
-                <p class="text-xl mb-6 leading-relaxed">
-                    "Bacalah dengan (menyebut) nama Tuhanmu yang Menciptakan."
-                </p>
-                <!-- Sumber ayat -->
-                <p class="text-sm opacity-90">
-                    QS. Al-'Alaq: 1
-                </p>
-            </div>
-        </div>
+<body>
 
-        <!-- Sisi Kanan - Form Login & Register -->
-        <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
-            <div class="max-w-md w-full">
-                <!-- Bagian Logo -->
-                <div class="text-center mb-8">
-                    <div class="flex items-center justify-center mb-4">
-                        <!-- Ikon Al-Qur'an -->
-                        <div class="bg-teal-500 text-white p-2 rounded-lg mr-3">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z" />
-                            </svg>
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Logo -->
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="bi bi-book"></i>
+                </div>
+                <div class="brand-title">Al-Qur'an Digital</div>
+                <div class="brand-subtitle">Masuk atau daftar untuk melanjutkan</div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <a href="{{ route('auth') }}" class="tab-btn {{ !$isRegister ? 'active' : '' }}">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Masuk
+                </a>
+                <a href="{{ route('auth', ['register' => true]) }}" class="tab-btn {{ $isRegister ? 'active' : '' }}">
+                    <i class="bi bi-person-plus"></i>
+                    Daftar
+                </a>
+            </div>
+
+            @if (!$isRegister)
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ $errors->first() }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+                <!-- LOGIN FORM -->
+                <form method="POST" action="{{ route('login') }}" id="loginForm">
+                    @csrf
+
+                    <div class="form-group" style="animation-delay: 0.1s">
+                        <label class="form-label">Email</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-envelope input-icon"></i>
+                            <input type="email" name="email" value="{{ old('email') }}"
+                                class="form-input @error('email') is-invalid @enderror" placeholder="nama@email.com"
+                                required>
                         </div>
-                        <!-- Judul Aplikasi -->
-                        <h2 class="text-2xl font-bold text-gray-800">Al-Qur'an Digital</h2>
-                    </div>
-                </div>
-
-                <!-- Pesan Selamat Datang -->
-                <div class="text-center mb-8">
-                    <h3 class="text-3xl font-bold text-gray-800 mb-3">Selamat Datang</h3>
-                    <p class="text-gray-600">
-                        Silakan masuk atau daftar untuk melanjutkan progres bacaan Anda.
-                    </p>
-                </div>
-
-                <!-- Tombol untuk Pilih Login atau Register -->
-                <div class="flex mb-6 bg-gray-100 rounded-lg p-1">
-                    <!-- Tombol Masuk -->
-                    <button id="masukTab"
-                        class="flex-1 py-2 px-4 rounded-md font-medium transition {{ !$isRegister ? 'bg-white shadow-sm text-gray-800' : 'text-gray-600 hover:text-gray-800' }}">
-                        Masuk
-                    </button>
-                    <!-- Tombol Daftar -->
-                    <button id="daftarTab"
-                        class="flex-1 py-2 px-4 rounded-md font-medium transition {{ $isRegister ? 'bg-white shadow-sm text-gray-800' : 'text-gray-600 hover:text-gray-800' }}">
-                        Daftar
-                    </button>
-                </div>
-
-                <!-- Form untuk Login -->
-                <form method="POST" action="{{ route('login') }}" class="{{ $isRegister ? 'hidden' : '' }}">
-                    @csrf
-
-                    <!-- Input Email -->
-                    <div class="mb-4">
-                        <label for="login-email" class="block text-sm font-medium text-gray-700 mb-2">
-                            Email
-                        </label>
-                        <input type="email" id="login-email" name="email" value="{{ old('email') }}"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition @error('email') border-red-500 @enderror"
-                            placeholder="nama@email.com" required>
-                        <!-- Pesan Error jika email salah -->
                         @error('email')
-                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                            <div class="error-message">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <!-- Input Password -->
-                    <div class="mb-4">
-                        <label for="login-password" class="block text-sm font-medium text-gray-700 mb-2">
-                            Kata Sandi
-                        </label>
-                        <input type="password" id="login-password" name="password"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition @error('password') border-red-500 @enderror"
-                            placeholder="••••••••" required>
-                        <!-- Pesan Error jika password salah -->
+                    <div class="form-group" style="animation-delay: 0.2s">
+                        <label class="form-label">Kata Sandi</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-lock input-icon"></i>
+                            <input type="password" name="password" id="loginPassword"
+                                class="form-input @error('password') is-invalid @enderror"
+                                placeholder="Masukkan kata sandi" required>
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('loginPassword', this)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
                         @error('password')
-                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                            <div class="error-message">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <!-- Tombol Submit Login -->
-                    <button type="submit"
-                        class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 shadow-sm">
-                        Masuk ke Akun
+                    <div class="form-check" style="animation-delay: 0.3s">
+                        <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                        <label for="remember" class="form-check-label">Ingat saya</label>
+                    </div>
+
+                    <button type="submit" class="auth-button" style="animation-delay: 0.4s">
+                        <i class="bi bi-box-arrow-in-right"></i> Masuk ke Akun
                     </button>
 
-                    <!-- Syarat dan Ketentuan -->
-                    <p class="text-center text-sm text-gray-600 mt-6">
-                        Dengan masuk, Anda menyetujui
-                        <a href="#" class="text-teal-500 hover:text-teal-600 font-medium">Syarat & Ketentuan</a>
-                        kami.
-                    </p>
+                    <div class="switch-link" style="animation-delay: 0.5s">
+                        Belum punya akun? <a href="{{ route('auth', ['register' => true]) }}" class="link">Daftar
+                            disini</a>
+                    </div>
                 </form>
-
-                <!-- Form untuk Register -->
-                <form method="POST" action="{{ route('register') }}" class="{{ !$isRegister ? 'hidden' : '' }}">
+            @else
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Gagal!</strong>
+                        <ul class="mb-0 mt-2">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+                <!-- REGISTER FORM -->
+                <form method="POST" action="{{ route('register') }}" id="registerForm">
                     @csrf
 
-                    <!-- Input Nama Lengkap -->
-                    <div class="mb-4">
-                        <label for="register-name" class="block text-sm font-medium text-gray-700 mb-2">
-                            Nama Lengkap
-                        </label>
-                        <input type="text" id="register-name" name="name" value="{{ old('name') }}"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition @error('name') border-red-500 @enderror"
-                            placeholder="Nama Anda" {{ $isRegister ? 'required' : '' }}>
-                        <!-- Pesan Error jika nama tidak valid -->
+                    <div class="form-group" style="animation-delay: 0.1s">
+                        <label class="form-label">Nama Lengkap</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-person input-icon"></i>
+                            <input type="text" name="name" value="{{ old('name') }}"
+                                class="form-input @error('name') is-invalid @enderror" placeholder="Nama lengkap Anda"
+                                required>
+                        </div>
                         @error('name')
-                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                            <div class="error-message">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <!-- Input Email -->
-                    <div class="mb-4">
-                        <label for="register-email" class="block text-sm font-medium text-gray-700 mb-2">
-                            Email
-                        </label>
-                        <input type="email" id="register-email" name="email" value="{{ old('email') }}"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition @error('email') border-red-500 @enderror"
-                            placeholder="nama@email.com" {{ $isRegister ? 'required' : '' }}>
-                        <!-- Pesan Error jika email sudah digunakan -->
+                    <div class="form-group" style="animation-delay: 0.2s">
+                        <label class="form-label">Email</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-envelope input-icon"></i>
+                            <input type="email" name="email" value="{{ old('email') }}"
+                                class="form-input @error('email') is-invalid @enderror" placeholder="nama@email.com"
+                                required>
+                        </div>
                         @error('email')
-                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                            <div class="error-message">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <!-- Input Password -->
-                    <div class="mb-4">
-                        <label for="register-password" class="block text-sm font-medium text-gray-700 mb-2">
-                            Kata Sandi
-                        </label>
-                        <input type="password" id="register-password" name="password"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition @error('password') border-red-500 @enderror"
-                            placeholder="••••••••" {{ $isRegister ? 'required' : '' }}>
-                        <!-- Pesan Error jika password tidak memenuhi syarat -->
+                    <div class="form-group" style="animation-delay: 0.3s">
+                        <label class="form-label">Kata Sandi</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-lock input-icon"></i>
+                            <input type="password" name="password" id="registerPassword"
+                                class="form-input @error('password') is-invalid @enderror"
+                                placeholder="Minimal 8 karakter" required>
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('registerPassword', this)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
                         @error('password')
-                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                            <div class="error-message">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <!-- Input Konfirmasi Password -->
-                    <div class="mb-6">
-                        <label for="register-password-confirmation"
-                            class="block text-sm font-medium text-gray-700 mb-2">
-                            Konfirmasi Kata Sandi
-                        </label>
-                        <input type="password" id="register-password-confirmation" name="password_confirmation"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition"
-                            placeholder="••••••••" {{ $isRegister ? 'required' : '' }}>
+                    <div class="form-group" style="animation-delay: 0.4s">
+                        <label class="form-label">Konfirmasi Kata Sandi</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-lock-fill input-icon"></i>
+                            <input type="password" name="password_confirmation" id="confirmPassword"
+                                class="form-input" placeholder="Ulangi kata sandi" required>
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('confirmPassword', this)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Tombol Submit Register -->
-                    <button type="submit"
-                        class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 shadow-sm">
-                        Daftar Akun
+                    <button type="submit" class="auth-button" style="animation-delay: 0.5s">
+                        <i class="bi bi-person-plus"></i> Daftar Akun
                     </button>
 
-                    <!-- Syarat dan Ketentuan -->
-                    <p class="text-center text-sm text-gray-600 mt-6">
-                        Dengan mendaftar, Anda menyetujui
-                        <a href="#" class="text-teal-500 hover:text-teal-600 font-medium">Syarat & Ketentuan</a>
-                        kami.
-                    </p>
+                    <div class="switch-link" style="animation-delay: 0.6s">
+                        Sudah punya akun? <a href="{{ route('auth') }}" class="link">Masuk disini</a>
+                    </div>
                 </form>
-            </div>
+            @endif
         </div>
     </div>
 
-    <!-- JavaScript untuk Mengatur Toggle Tab -->
     <script>
-        // Ambil elemen tombol Masuk dan Daftar
-        const masukTab = document.getElementById('masukTab');
-        const daftarTab = document.getElementById('daftarTab');
+        // Toggle password visibility
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('i');
 
-        // Ketika tombol Masuk diklik, arahkan ke halaman login
-        masukTab.addEventListener('click', () => {
-            window.location.href = "{{ route('auth') }}";
-        });
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
 
-        // Ketika tombol Daftar diklik, arahkan ke halaman register
-        daftarTab.addEventListener('click', () => {
-            window.location.href = "{{ route('auth', ['register' => true]) }}";
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+
+        // Auto-hide validation messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.querySelectorAll('.alert').forEach(alert => {
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+                    setTimeout(() => alert.remove(), 500);
+                });
+            }, 5000);
+
+
+            // Add animation delays to form groups
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                group.style.animationDelay = `${(index + 1) * 0.1}s`;
+            });
         });
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
