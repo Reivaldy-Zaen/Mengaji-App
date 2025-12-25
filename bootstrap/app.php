@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->redirectGuestsTo('/auth');
-        $middleware->redirectUsersTo('/');
+        $middleware->redirectUsersTo('/surah');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
