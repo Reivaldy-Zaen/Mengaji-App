@@ -8,8 +8,8 @@
 @push('styles')
     <style>
         /* =====================
-                    PAGE LAYOUT
-                ===================== */
+                            PAGE LAYOUT
+                        ===================== */
         .main-layout {
             display: flex;
             min-height: 100vh;
@@ -18,6 +18,7 @@
         .content-area {
             flex: 1;
             background: var(--bg-body);
+            padding: 2rem 3rem;
         }
 
         .header-sticky {
@@ -35,8 +36,8 @@
         }
 
         /* =====================
-                       SURAH HEADER
-                    ===================== */
+                               SURAH HEADER
+                            ===================== */
         .surah-title-box {
             text-align: center;
             margin-bottom: 3rem;
@@ -54,8 +55,8 @@
         }
 
         /* =====================
-                       AYAT
-                    ===================== */
+                               AYAT
+                            ===================== */
         .ayat-item {
             display: flex;
             gap: 1.5rem;
@@ -88,8 +89,8 @@
         }
 
         /* =====================
-                       ACTIONS
-                    ===================== */
+                               ACTIONS
+                            ===================== */
         .action-btn {
             background: none;
             border: none;
@@ -105,8 +106,8 @@
         }
 
         /* =====================
-                       SIDEBAR RIGHT
-                    ===================== */
+                               SIDEBAR RIGHT
+                            ===================== */
         .sidebar-right {
             width: 320px;
             border-left: 1px solid var(--border-color);
@@ -129,8 +130,8 @@
         }
 
         /* =====================
-       HEADER BACK BUTTON
-    ===================== */
+               HEADER BACK BUTTON
+            ===================== */
         .btn-back {
             display: inline-flex;
             align-items: center;
@@ -145,8 +146,8 @@
         }
 
         /* =====================
-       AYAT CONTENT
-    ===================== */
+               AYAT CONTENT
+            ===================== */
         .ayat-content {
             flex: 1;
         }
@@ -158,8 +159,8 @@
         }
 
         /* =====================
-       NAVIGATION BOTTOM
-    ===================== */
+               NAVIGATION BOTTOM
+            ===================== */
         .nav-bottom {
             display: flex;
             justify-content: space-between;
@@ -188,8 +189,8 @@
         }
 
         /* =====================
-       SIDEBAR RIGHT
-    ===================== */
+               SIDEBAR RIGHT
+            ===================== */
         .sidebar-section {
             margin-bottom: 2.5rem;
         }
@@ -204,8 +205,8 @@
         }
 
         /* =====================
-       AUDIO
-    ===================== */
+               AUDIO
+            ===================== */
         .audio-wrapper {
             display: flex;
             justify-content: center;
@@ -218,8 +219,8 @@
         }
 
         /* =====================
-       MOBILE IMPROVEMENT
-    ===================== */
+               MOBILE IMPROVEMENT
+            ===================== */
         @media (max-width: 576px) {
             .ayat-item {
                 gap: 1rem;
@@ -248,8 +249,8 @@
 
 
         /* =====================
-                       RESPONSIVE
-                    ===================== */
+                               RESPONSIVE
+                            ===================== */
         @media (max-width: 992px) {
             .main-layout {
                 flex-direction: column;
@@ -271,7 +272,6 @@
 @section('content')
     <div class="main-layout">
         <main class="content-area">
-
             <div class="header-sticky">
                 <a href="{{ route('surah.index') }}" class="btn-back">
                     <i class="bi bi-arrow-left"></i> Kembali ke Daftar

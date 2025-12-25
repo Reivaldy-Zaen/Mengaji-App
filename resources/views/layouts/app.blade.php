@@ -89,6 +89,11 @@
         .text-teal {
             color: var(--teal-primary) !important;
         }
+
+        .full-width {
+            margin-left: 0 !important;
+            /* hilangkan margin sidebar kiri */
+        }
     </style>
     @stack('styles')
 </head>
@@ -100,11 +105,12 @@
         <i class="bi bi-list"></i>
     </button>
 
-    {{-- SIDEBAR --}}
-    @include('partials.sidebar')
+    @if (!($hideSidebar ?? false))
+        @include('partials.sidebar')
+    @endif
 
     {{-- CONTENT --}}
-    <div class="main-content">
+    <div class="main-content {{ $hideSidebar ?? false ? 'full-width' : '' }}">
         @yield('content')
     </div>
 
@@ -113,8 +119,8 @@
 
     <script>
         /* =====================
-                   THEME (PERSISTENT)
-                ====================== */
+                                   THEME (PERSISTENT)
+                                ====================== */
         function toggleTheme() {
             const html = document.documentElement;
             const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
