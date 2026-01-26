@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', "Al-Qur'an Digital")</title>
 
@@ -88,6 +89,11 @@
         .text-teal {
             color: var(--teal-primary) !important;
         }
+
+        .full-width {
+            margin-left: 0 !important;
+            /* hilangkan margin sidebar kiri */
+        }
     </style>
     @stack('styles')
 </head>
@@ -99,11 +105,12 @@
         <i class="bi bi-list"></i>
     </button>
 
-    {{-- SIDEBAR --}}
-    @include('partials.sidebar')
+    @if (!($hideSidebar ?? false))
+        @include('partials.sidebar')
+    @endif
 
     {{-- CONTENT --}}
-    <div class="main-content">
+    <div class="main-content {{ $hideSidebar ?? false ? 'full-width' : '' }}">
         @yield('content')
     </div>
 
@@ -112,8 +119,13 @@
 
     <script>
         /* =====================
+<<<<<<< HEAD
                    THEME (PERSISTENT)
                 ====================== */
+=======
+                                   THEME (PERSISTENT)
+                                ====================== */
+>>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         function toggleTheme() {
             const html = document.documentElement;
             const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
