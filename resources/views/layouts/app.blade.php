@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:wght@700&display=swap"
-          rel="stylesheet">
+        rel="stylesheet">
 
     {{-- CSS --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -22,29 +22,30 @@
            COLOR SYSTEM
         ====================== */
         :root {
-            --bg-body: #f8fafb;
+            --teal-primary: #14b8a6;
+            --teal-dark: #0d9488;
+            --teal-light: #99f6e4;
+            --teal-gradient: linear-gradient(135deg, var(--teal-primary), var(--teal-dark));
+            --bg-body: #f8fafc;
             --bg-card: #ffffff;
             --sidebar-bg: #ffffff;
-
             --text-main: #1b1b18;
             --text-muted: #706f6c;
-
-            --border-color: #eeeeec;
-
-            --teal-primary: #0d9488;
-            --teal-light: #e6f6f4;
+            --border-color: #e2e8f0;
         }
 
         [data-bs-theme="dark"] {
-            --bg-body: #0a0a0a;
-            --bg-card: #161615;
-            --sidebar-bg: #161615;
+            --teal-primary: #2dd4bf;
+            --teal-dark: #0d9488;
+            --teal-light: #5eead4;
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --sidebar-bg: #1e293b;
 
             --text-main: #ededec;
             --text-muted: #a1a09a;
 
-            --border-color: #3e3e3a;
-            --teal-light: #1a2e2c;
+            --border-color: #334155;
         }
 
         /* =====================
@@ -69,51 +70,6 @@
         }
 
         /* =====================
-           SIDEBAR
-        ====================== */
-        .sidebar {
-            position: fixed;
-            inset: 0 auto 0 0;
-            width: 260px;
-            padding: 2rem 1rem;
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            transition: transform .3s ease;
-            z-index: 1000;
-        }
-
-        .sidebar-brand {
-            font-weight: 700;
-            color: var(--teal-primary);
-            margin-bottom: 2rem;
-            padding: 0 .5rem;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: .8rem 1rem;
-            margin-bottom: .5rem;
-            border-radius: 8px;
-            color: var(--text-muted);
-            font-weight: 500;
-            text-decoration: none;
-            transition: .2s ease;
-        }
-
-        .nav-link:hover {
-            background-color: rgba(13,148,136,.1);
-            color: var(--teal-primary);
-        }
-
-        .nav-link.active {
-            background-color: var(--teal-light);
-            color: var(--teal-primary) !important;
-            font-weight: 600;
-        }
-
-        /* =====================
            MAIN CONTENT
         ====================== */
         .main-content {
@@ -125,46 +81,21 @@
         /* =====================
            UTILITIES
         ====================== */
-        .bg-teal { background: var(--teal-primary) !important; }
-        .text-teal { color: var(--teal-primary) !important; }
-
-        /* =====================
-           RESPONSIVE
-        ====================== */
-        @media (max-width: 992px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.show {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 1.5rem;
-            }
-
-            .mobile-menu-btn {
-                display: block !important;
-            }
+        .bg-teal {
+            background: var(--teal-primary) !important;
         }
 
-        @media (min-width: 993px) {
-            .mobile-menu-btn {
-                display: none !important;
-            }
+        .text-teal {
+            color: var(--teal-primary) !important;
         }
     </style>
-
     @stack('styles')
 </head>
 
 <body>
     {{-- MOBILE MENU --}}
     <button class="mobile-menu-btn btn bg-teal text-white position-fixed bottom-0 end-0 m-3 rounded-circle shadow-lg"
-            style="width:56px;height:56px;display:none;z-index:999"
-            onclick="toggleSidebar()">
+        style="width:56px;height:56px;display:none;z-index:999" onclick="toggleSidebar()">
         <i class="bi bi-list"></i>
     </button>
 
@@ -181,27 +112,8 @@
 
     <script>
         /* =====================
-           SIDEBAR MOBILE
-        ====================== */
-        function toggleSidebar() {
-            document.querySelector('.sidebar')?.classList.toggle('show');
-        }
-
-        document.addEventListener('click', e => {
-            const sidebar = document.querySelector('.sidebar');
-            const btn = document.querySelector('.mobile-menu-btn');
-            if (!sidebar || !btn) return;
-
-            if (window.innerWidth <= 992 &&
-                !sidebar.contains(e.target) &&
-                !btn.contains(e.target)) {
-                sidebar.classList.remove('show');
-            }
-        });
-
-        /* =====================
-           THEME (PERSISTENT)
-        ====================== */
+                   THEME (PERSISTENT)
+                ====================== */
         function toggleTheme() {
             const html = document.documentElement;
             const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
@@ -225,4 +137,5 @@
 
     @stack('scripts')
 </body>
+
 </html>
