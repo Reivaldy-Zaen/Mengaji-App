@@ -119,13 +119,8 @@
 
     <script>
         /* =====================
-<<<<<<< HEAD
-                   THEME (PERSISTENT)
-                ====================== */
-=======
                                    THEME (PERSISTENT)
                                 ====================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         function toggleTheme() {
             const html = document.documentElement;
             const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
