@@ -15,21 +15,11 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-<<<<<<< HEAD
-
-=======
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
     Route::get('/surah', [SurahController::class, 'index'])->name('surah.index');
     Route::get('/surah/{nomor}', [SurahController::class, 'show'])->name('surah.show');
     Route::get('/riwayat', [SurahController::class, 'riwayat'])->name('surah.riwayat');
     Route::get('/bookmarks', [SurahController::class, 'bookmarks'])->name('surah.bookmarks');
     Route::post('/surah/history', [SurahController::class, 'saveHistory'])->name('surah.history');
-<<<<<<< HEAD
-
     Route::view('/about', 'surah.about')->name('about');
-
-=======
-    Route::view('/about', 'surah.about')->name('about');
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
