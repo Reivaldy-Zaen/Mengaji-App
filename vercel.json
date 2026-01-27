@@ -1,10 +1,11 @@
 {
     "version": 2,
-    "framework": null,
     "functions": {
         "api/*.php": { "runtime": "vercel-php@0.7.0" }
     },
     "routes": [
         { "src": "/(.*)", "dest": "/api/index.php" }
-    ]
+    ],
+    "installCommand": "composer install --no-dev",
+    "buildCommand": "npm install && npm run build"
 }
