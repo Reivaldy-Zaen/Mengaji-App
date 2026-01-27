@@ -36,13 +36,8 @@
         }
 
         /* =====================
-<<<<<<< HEAD
-                       SURAH HEADER
-                    ===================== */
-=======
                                SURAH HEADER
                             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         .surah-title-box {
             text-align: center;
             margin-bottom: 3rem;
@@ -60,13 +55,8 @@
         }
 
         /* =====================
-<<<<<<< HEAD
-                       AYAT
-                    ===================== */
-=======
                                AYAT
                             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         .ayat-item {
             display: flex;
             gap: 1.5rem;
@@ -99,13 +89,8 @@
         }
 
         /* =====================
-<<<<<<< HEAD
-                       ACTIONS
-                    ===================== */
-=======
                                ACTIONS
                             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         .action-btn {
             background: none;
             border: none;
@@ -121,13 +106,8 @@
         }
 
         /* =====================
-<<<<<<< HEAD
-                       SIDEBAR RIGHT
-                    ===================== */
-=======
                                SIDEBAR RIGHT
                             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         .sidebar-right {
             width: 320px;
             border-left: 1px solid var(--border-color);
@@ -150,13 +130,8 @@
         }
 
         /* =====================
-<<<<<<< HEAD
-       HEADER BACK BUTTON
-    ===================== */
-=======
                HEADER BACK BUTTON
             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         .btn-back {
             display: inline-flex;
             align-items: center;
@@ -171,13 +146,8 @@
         }
 
         /* =====================
-<<<<<<< HEAD
-       AYAT CONTENT
-    ===================== */
-=======
                AYAT CONTENT
             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         .ayat-content {
             flex: 1;
         }
@@ -189,13 +159,8 @@
         }
 
         /* =====================
-<<<<<<< HEAD
-       NAVIGATION BOTTOM
-    ===================== */
-=======
                NAVIGATION BOTTOM
             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         .nav-bottom {
             display: flex;
             justify-content: space-between;
@@ -224,13 +189,8 @@
         }
 
         /* =====================
-<<<<<<< HEAD
-       SIDEBAR RIGHT
-    ===================== */
-=======
                SIDEBAR RIGHT
             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         .sidebar-section {
             margin-bottom: 2.5rem;
         }
@@ -245,13 +205,8 @@
         }
 
         /* =====================
-<<<<<<< HEAD
-       AUDIO
-    ===================== */
-=======
                AUDIO
             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         .audio-wrapper {
             display: flex;
             justify-content: center;
@@ -264,13 +219,8 @@
         }
 
         /* =====================
-<<<<<<< HEAD
-       MOBILE IMPROVEMENT
-    ===================== */
-=======
                MOBILE IMPROVEMENT
             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         @media (max-width: 576px) {
             .ayat-item {
                 gap: 1rem;
@@ -299,13 +249,8 @@
 
 
         /* =====================
-<<<<<<< HEAD
-                       RESPONSIVE
-                    ===================== */
-=======
                                RESPONSIVE
                             ===================== */
->>>>>>> 425c50d81df33ec21a34926f2aa22b439c9f3a69
         @media (max-width: 992px) {
             .main-layout {
                 flex-direction: column;
